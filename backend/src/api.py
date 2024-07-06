@@ -1,33 +1,16 @@
 import strawberry
 from strawberry.asgi import GraphQL
-from strawberry.experimental import pydantic
 
-from typing import List
-
-from .models import MetaWordInfo, WordInfo
 from .resolvers import fetch_word_info
-
-
-@pydantic.type(model=MetaWordInfo, all_fields=True)
-class MetaWordInfoType:
-    pass
-
-@pydantic.type(model=WordInfo, all_fields=True)
-class WordInfoType:
-    pass
-
-@strawberry.type
-class WordInfoResult:
-    metaWordInfo: MetaWordInfoType
-    wordInfo: List[WordInfoType]
+from .API_types import WordMeaningResult
 
 
 @strawberry.type
 class Query:
     @strawberry.field
-    def get_word_info(lang: str, term: str) -> WordInfoResult:
-        meta_word_info, word_infos = fetch_word_info(lang, term)
-        return WordInfoResult(metaWordInfo=meta_word_info, wordInfo=word_infos)
+    def get_word_info(lang: str, term: str) -> WordMeaningResult:
+        meta_word_info, word_meanings = fetch_word_info(lang, term)
+        return WordMeaningResult(meta_word_info=meta_word_info, word_meanings=word_meanings)
     
 
 schema = strawberry.Schema(query=Query)
