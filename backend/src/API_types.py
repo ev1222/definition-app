@@ -8,9 +8,11 @@ from .models import MetaWordInfo, WordMeaning
 class MetaWordInfoType:
     pass
 
+
 @pydantic.type(model=WordMeaning, all_fields=True)
 class WordMeaningType:
     pass
+
 
 @strawberry.type
 class WordMeaningResult:
