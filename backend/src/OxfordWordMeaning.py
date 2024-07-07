@@ -76,6 +76,7 @@ class OxfordWordMeaning:
                         definitions = sense.get("definitions", [])
                         # short_definitions = sense.get("shortDefinitions", [])
                         examples = sense.get("examples", [])
+                        synonyms = sense.get("synonyms", [])
 
                         subsenses = sense.get("subsenses", [])
                         if subsenses:
@@ -90,6 +91,7 @@ class OxfordWordMeaning:
                             sub_examples = [
                                 subsense.get("examples", []) for subsense in subsenses
                             ]
+                            sub_synonyms = [subsense.get('synonyms', []) for subsense in subsenses]
                         else:
                             sub_definitions = []
                             # sub_short_definitions = []
@@ -107,9 +109,11 @@ class OxfordWordMeaning:
                         word_meaning = {
                             "lexical_category": lexical_category,
                             "definitions": definitions,
-                            "sub_definitions": sub_definitions,
                             "examples": examples,
+                            "synonyms": synonyms,
+                            "sub_definitions": sub_definitions,
                             "sub_examples": sub_examples,
+                            "sub_synonyms": sub_synonyms
                         }
 
                         word_meanings.append(word_meaning)
@@ -158,13 +162,16 @@ class OxfordWordMeaning:
         ### Returns:
             list[dict]: Formatted list of word meaning dictionaries.
         """
-        meanings = []
+        formatted_meanings = []
         for wm in word_meanings:
             lexical_category = wm["lexical_category"]
             definitions = wm["definitions"]
 
             # Extract text from examples
             examples = [example.get("text") for example in wm["examples"] if example]
+
+            # Extract text form synonyms
+            synonyms = [synonym.get("text") for synonym in wm["synonyms"] if synonym]
 
             # Flatten sub_definitions
             sub_definitions = [
@@ -177,16 +184,24 @@ class OxfordWordMeaning:
                 for sublist in wm["sub_examples"]
             ]
 
+            # Extract text from sub_synonyms while maintaining sublist structure
+            sub_synonyms = [
+                [synonym.get("text") for synonym in sublist]
+                for sublist in wm["sub_synonyms"]
+            ]
+
             # Reconstruct word_meanings with desired fields and shape
             word_meaning = {
                 "lexical_category": lexical_category,
                 "definitions": definitions,
                 "examples": examples,
+                "synonyms": synonyms,
                 "sub_definitions": sub_definitions,
                 "sub_examples": sub_examples,
+                "sub_synonyms": sub_synonyms
             }
-            meanings.append(word_meaning)
-        return meanings
+            formatted_meanings.append(word_meaning)
+        return formatted_meanings
 
     def get_word_meaning(self, lang: str, word: str) -> tuple[dict, list[dict]]:
         """

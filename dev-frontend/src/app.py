@@ -18,8 +18,10 @@ query($word: String!){
       lexicalCategory
       definitions
       examples
+      synonyms
       subDefinitions
       subExamples
+      subSynonyms
     }
   }
 }
@@ -30,6 +32,8 @@ client = GraphqlClient(url)
 st.title("Dictionary App")
 word = st.text_input(label="Define words")
 
+st.divider()
+
 if word:
     vars = {"word": word}
     response = client.execute(query, vars)
@@ -38,11 +42,13 @@ if word:
     meta_word_info = MetaWordInfo(**result['metaWordInfo'])
     word_meanings = [WordMeaning(**wm) for wm in result['wordMeanings']]
 
-    st.header(meta_word_info.word.title())
+    definition_box = st.container(border=True)
+
+    definition_box.header(meta_word_info.word.title())
 
     for ipa, audio_file in zip(meta_word_info.ipa, meta_word_info.audioFile):
-        col1, col2 = st.columns([4,1])
-        col2.subheader(ipa)
+        col1, col2 = definition_box.columns([3,1])
+        col2.subheader(f"/{ipa}/")
         
         if col1.button("Pronounce"):
             st.audio(audio_file, autoplay=True)
@@ -53,15 +59,19 @@ if word:
         if word_meaning.lexicalCategory not in cats:
             c = 1
             cats.add(word_meaning.lexicalCategory)
-            st.markdown(f"##### *{word_meaning.lexicalCategory}*")
+            definition_box.caption(f"<p style='margin-bottom: 2px;'><i>{word_meaning.lexicalCategory.lower()}</i>", unsafe_allow_html=True)
+        
         for defn in word_meaning.definitions:
-            st.write(f"{c}. {defn}")
+            definition_box.write(f"<p style='margin-bottom: 2px;'>{c}. {defn}", unsafe_allow_html=True)
+        
         for ex in word_meaning.examples:
-            st.markdown(f"*{ex}*")
+            definition_box.write(f"&emsp;*\"{ex}\"*")
+        
         for i, sub_defn in enumerate(word_meaning.subDefinitions):
-            st.write(f"- {sub_defn}")
+            definition_box.markdown(f"<p style='margin-bottom: 2px;'>&emsp;• {sub_defn}", unsafe_allow_html=True)
             for sub_ex in word_meaning.subExamples[i]:
-                st.markdown(f"*{sub_ex}*")
+                definition_box.markdown(f"&emsp;&emsp;*\"{sub_ex}\"*")
+        
         c += 1
 
 
