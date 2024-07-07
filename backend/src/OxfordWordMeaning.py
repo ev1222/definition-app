@@ -1,8 +1,23 @@
-import os
+import os, json
 import requests
 from dotenv import load_dotenv
 
 load_dotenv()
+
+
+def get_abandon_json():
+    # Get the path to the current directory (definition-app/dev-frontend/src/)
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+
+    # Construct the path to the top-level directory (definition-app) and the JSON file
+    root_dir = os.path.abspath(os.path.join(current_dir, '../../'))
+    json_file_path = os.path.join(root_dir, 'abandon.json')
+
+    # Read the JSON response from the file
+    with open(json_file_path, 'r') as json_file:
+        data = json.load(json_file)
+    
+    return data
 
 
 class OxfordWordMeaning:
@@ -24,7 +39,8 @@ class OxfordWordMeaning:
         word_meaning = {}
         word_meanings = []
 
-        data = self.__fetch_word_data(lang, word)
+        # data = self.__fetch_word_data(lang, word)
+        data = get_abandon_json()
         results = data.get("results", [])
         for result in results:
             word = result.get("word")

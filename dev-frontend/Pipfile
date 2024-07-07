@@ -4,8 +4,9 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-graphql-client = "*"
 streamlit = "*"
+python-graphql-client = "*"
+pydantic = "*"
 
 [dev-packages]
 flake8 = "*"
@@ -13,3 +14,6 @@ black = "*"
 
 [requires]
 python_version = "3.12"
+
+[scripts]
+dev = "streamlit run src/app.py"
