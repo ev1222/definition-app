@@ -10,13 +10,13 @@ def get_abandon_json():
     current_dir = os.path.dirname(os.path.abspath(__file__))
 
     # Construct the path to the top-level directory (definition-app) and the JSON file
-    root_dir = os.path.abspath(os.path.join(current_dir, '../../'))
-    json_file_path = os.path.join(root_dir, 'abandon.json')
+    root_dir = os.path.abspath(os.path.join(current_dir, "../../"))
+    json_file_path = os.path.join(root_dir, "abandon.json")
 
     # Read the JSON response from the file
-    with open(json_file_path, 'r') as json_file:
+    with open(json_file_path, "r") as json_file:
         data = json.load(json_file)
-    
+
     return data
 
 
@@ -91,7 +91,9 @@ class OxfordWordMeaning:
                             sub_examples = [
                                 subsense.get("examples", []) for subsense in subsenses
                             ]
-                            sub_synonyms = [subsense.get('synonyms', []) for subsense in subsenses]
+                            sub_synonyms = [
+                                subsense.get("synonyms", []) for subsense in subsenses
+                            ]
                         else:
                             sub_definitions = []
                             # sub_short_definitions = []
@@ -113,7 +115,7 @@ class OxfordWordMeaning:
                             "synonyms": synonyms,
                             "sub_definitions": sub_definitions,
                             "sub_examples": sub_examples,
-                            "sub_synonyms": sub_synonyms
+                            "sub_synonyms": sub_synonyms,
                         }
 
                         word_meanings.append(word_meaning)
@@ -198,7 +200,7 @@ class OxfordWordMeaning:
                 "synonyms": synonyms,
                 "sub_definitions": sub_definitions,
                 "sub_examples": sub_examples,
-                "sub_synonyms": sub_synonyms
+                "sub_synonyms": sub_synonyms,
             }
             formatted_meanings.append(word_meaning)
         return formatted_meanings

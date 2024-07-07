@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "f0881c2013524628d8089e8216906fdc2464eea54a3302efcd63480dedfcdf30"
+            "sha256": "2bd0b9b0e718fe490835aa3f5ae89a6dc55269d83786c01344711f1fe9dc6461"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -1102,6 +1102,15 @@
             "index": "pypi",
             "markers": "python_version >= '3.8' and python_full_version != '3.9.7'",
             "version": "==1.36.0"
+        },
+        "streamlit-pills": {
+            "hashes": [
+                "sha256:47668ad4fd8c137b203ee1aec9d9d44ed8b2ff7ded9f586984f204be2eac772f",
+                "sha256:b66fdf7b1820c09b751a76ef1ae01ab93221d0c2c2d1cd489b711b9afaae0513"
+            ],
+            "index": "pypi",
+            "markers": "python_version >= '3.8' and python_version < '4.0'",
+            "version": "==0.3.0"
         },
         "tenacity": {
             "hashes": [

@@ -7,6 +7,7 @@ name = "pypi"
 streamlit = "*"
 python-graphql-client = "*"
 pydantic = "*"
+streamlit-pills = "*"
 
 [dev-packages]
 flake8 = "*"
